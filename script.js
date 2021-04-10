@@ -1,6 +1,5 @@
 const pup = require("puppeteer");
-let id = "kixafix474@whyflkj.com";
-let pass = "Cool@123";
+let {id,pass} = require("./secret");
 let tab;
 let dataFile = require("./data");
 
@@ -21,56 +20,59 @@ async function main(){
         await tab.click("#modal_login_submit");
 
          await tab.waitForNavigation({waitUntil : "networkidle2"});
-        // await tab.click(".nav-link.dropdown-toggle.profile_container .is_icon_header.ic-24-filled-down-arrow");
+        await tab.click(".nav-link.dropdown-toggle.profile_container .is_icon_header.ic-24-filled-down-arrow");
 
-        //  let profile_options = await tab.$$(".profile_options a");
-        //  let app_urls = [];
-        //  for(let i=0; i<11; i++){
-        //     let url = await tab.evaluate(function(ele){
-        //             return ele.getAttribute("href");                                 
-        //     }, profile_options[i]); 
-        //     app_urls.push(url);    
-        // }                                              
-        // await new Promise(function(resolve,reject){                             
-        //     return setTimeout(resolve, 2000);
-        // });
-        // tab.goto("https://internshala.com"+app_urls[1]);
+         let profile_options = await tab.$$(".profile_options a");
+         let app_urls = [];
+         for(let i=0; i<11; i++){
+            let url = await tab.evaluate(function(ele){
+                    return ele.getAttribute("href");                                 
+            }, profile_options[i]); 
+            app_urls.push(url);    
+        }                                              
+        await new Promise(function(resolve,reject){                             
+            return setTimeout(resolve, 2000);
+        });
+        tab.goto("https://internshala.com"+app_urls[1]);
 
-        // await tab.waitForSelector("#graduation-tab .ic-16-plus", {visible : true});
-        // await tab.click("#graduation-tab .ic-16-plus");
-        // await graduation(dataFile[0]);
+        await tab.waitForSelector("#graduation-tab .ic-16-plus", {visible : true});
+        await tab.click("#graduation-tab .ic-16-plus");
+        await graduation(dataFile[0]);
 
-        // await new Promise(function(resolve,reject){                              
-        //     return setTimeout(resolve, 1000);
-        // });
+        await new Promise(function(resolve,reject){                              
+            return setTimeout(resolve, 1000);
+        });
 
-        // await tab.waitForSelector(".next-button", {visible : true});
-        // await tab.click(".next-button");
+        await tab.waitForSelector(".next-button", {visible : true});
+        await tab.click(".next-button");
 
-        // await training(dataFile[0]);
+        await training(dataFile[0]);
 
-        // await new Promise(function(resolve,reject){                              
-        //     return setTimeout(resolve, 1000);
-        // });
+        await new Promise(function(resolve,reject){                              
+            return setTimeout(resolve, 1000);
+        });
 
-        // await tab.waitForSelector(".next-button", {visible : true});
-        // await tab.click(".next-button");
+        await tab.waitForSelector(".next-button", {visible : true});
+        await tab.click(".next-button");
 
-        // await tab.waitForSelector(".btn.btn-secondary.skip.skip-button", {visible : true});
-        // await tab.click(".btn.btn-secondary.skip.skip-button");
+        await tab.waitForSelector(".btn.btn-secondary.skip.skip-button", {visible : true});
+        await tab.click(".btn.btn-secondary.skip.skip-button");
 
-        // await workSample(dataFile[0]);
+        await workSample(dataFile[0]);
 
-        // await new Promise(function(resolve,reject){                              
-        //     return setTimeout(resolve, 1000);
-        // });
+        await new Promise(function(resolve,reject){                              
+            return setTimeout(resolve, 1000);
+        });
 
-        // await tab.waitForSelector("#save_work_samples", {visible : true});
-        // await tab.click("#save_work_samples");
+        await tab.waitForSelector("#save_work_samples", {visible : true});
+        await tab.click("#save_work_samples");
        
         // await tab.waitForSelector(".resume_download_mobile", {visible : true});
         // await tab.click(".resume_download_mobile");                                // if you want to download resume.
         
+        await new Promise(function(resolve,reject){                              
+            return setTimeout(resolve, 1000);
+        });
         await application(dataFile[0]);
     }
 
@@ -91,8 +93,6 @@ async function main(){
         await tab.waitForSelector("#end_year_chosen .active-result[data-option-array-index = '6']", {visible : true});
         await tab.click("#end_year_chosen .active-result[data-option-array-index = '6']");
         
-
-
         await tab.waitForSelector("#degree", {visible : true});
         await tab.type("#degree", data["Degree"]);
 
@@ -176,7 +176,7 @@ async function main(){
         await tab.waitForSelector(".view_detail_button", {visible : true});
         let details = await tab.$$(".view_detail_button");
         let detailUrl = [];
-        for(let i=0; i<2; i++){
+        for(let i=0; i<3; i++){
             let url = await tab.evaluate(function(ele){
                     return ele.getAttribute("href");                                 
             }, details[i]); 
@@ -185,6 +185,9 @@ async function main(){
         
         for(let i of detailUrl){
             await apply(i, data);
+            await new Promise(function(resolve,reject){                             
+                return setTimeout(resolve, 1000);
+            });
         }
 
     }
@@ -203,12 +206,26 @@ async function main(){
 
         for(let i=0; i<ans.length ; i++){
             if(i==0){
-            await ans[i].type(data["hiringReason"]);
+                await ans[i].type(data["hiringReason"]);
+                await new Promise(function(resolve,reject){                             
+                    return setTimeout(resolve, 1000);
+                });
             }
             else if(i==1){
                 await ans[i].type(data["availability"]);
+                await new Promise(function(resolve,reject){                             
+                    return setTimeout(resolve, 1000);
+                });
+            }
+            else{
+                await ans[i].type(data["rating"]);
+                await new Promise(function(resolve,reject){                             
+                    return setTimeout(resolve, 1000);
+                });
             } 
         }
+
+           await tab.click(".submit_button_container");
 
     }
 
